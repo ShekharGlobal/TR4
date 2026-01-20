@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Async + AJAX Demo</title>
+</head>
+<body>
+
+	<h2>Server Push Simulation</h2>
+	<div id="output">Waiting for server...</div>
+
+	<script>
+function requestUpdate() {
+    fetch("async")
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById("output").innerHTML = data;
+        });
+}
+
+// Call server every 5 seconds
+setInterval(requestUpdate, 5000);
+</script>
+
+</body>
+</html>
