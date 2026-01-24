@@ -1,0 +1,173 @@
+1. Create a class called Customer that has the below attributes
+custId int
+custName String
+emailId String
+contactNo long
+Create another class MemberShip that has the below attributes
+membershipId int
+membershipTypeString
+visitsPerYear int
+customer Customer
+Attributes should be private.
+Customer has to set to the membership via constructor injection in the XML file.
+Create a class called Driver with the main method and write the logic to get input
+from the user such as the customer details, membership details and display the
+details to verify the correctness of your code. (Note: UI will not be tested).
+Design Constraints
+Customer class and the MemberShip class should be present in com.spring.app
+package.
+Write appropriate getters and setters and constructors
+The className/Attribute Name/PackageName should be same as specified in the
+problem statement. Do not create any new packages.
+The XML configuration should be done in the file applicationContext.xml. This XML
+should be available under the resources folder of the created maven project.
+The Customer bean in the applicationContext.xml should have id value as "custObj"
+Solution:
+Pom.xml:
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<modelVersion>4.0.0</modelVersion>
+<groupId>com.springcore</groupId>
+<artifactId>constructorinjection</artifactId>
+<version>0.0.1-SNAPSHOT</version>
+<dependencies>
+<dependency>
+<groupId>org.springframework</groupId>
+<artifactId>spring-context</artifactId>
+<version>4.3.10.RELEASE</version>
+</dependency>
+</dependencies>
+</project>
+Customer.java
+package com.spring.app;
+public class Customer {
+private int custId;
+private String custName;
+private String emailId;
+private long contactNo;
+// public Customer(int custId, String custName, String emailId, long
+contactNo) {
+// this.custId = custId;
+// this.custName = custName;
+// this.emailId = emailId;
+// this.contactNo = contactNo;
+// }
+public int getCustId() {
+return custId;
+}
+public void setCustId(int custId) {
+this.custId = custId;
+}
+public String getCustName() {
+return custName;
+}
+public void setCustName(String custName) {
+this.custName = custName;
+}
+public String getEmailId() {
+return emailId;
+}
+public void setEmailId(String emailId) {
+this.emailId = emailId;
+}
+public long getContactNo() {
+return contactNo;
+}
+public void setContactNo(long contactNo) {
+this.contactNo = contactNo;
+}
+@Override
+public String toString() {
+return "Customer [custId=" + custId + ", custName=" +
+custName + ", emailId=" + emailId + ", contactNo="
++ contactNo + "]";
+}
+}
+Driver.java
+package com.spring.app;
+import org.springframework.context.ApplicationContext;
+import
+org.springframework.context.support.ClassPathXmlApplicationContext;
+public class Driver {
+public static void main(String[] args)
+{
+ApplicationContext context = new
+ClassPathXmlApplicationContext("applicationContext.xml");
+MemberShip ms =
+(MemberShip)context.getBean("memberShipObj");
+System.out.println(ms);
+}
+}
+//<constructor-arg value = "1" type="int" index="0"/>
+//<constructor-arg value = "shivam" index="1"/>
+//<constructor-arg value = "shivam@gmail.com" index="2"/>
+//<constructor-arg value = "9451363700" type="long" index="3"/>
+MemberShip.java
+package com.spring.app;
+public class MemberShip {
+private int membershipId;
+private String membershipType;
+private int visitsPerYear;
+private Customer customer;
+public MemberShip(int membershipId, String membershipType,
+int visitsPerYear, Customer customer) {
+this.membershipId = membershipId;
+this.membershipType = membershipType;
+this.visitsPerYear = visitsPerYear;
+this.customer = customer;
+}
+public int getMembershipId() {
+return membershipId;
+}
+public void setMembershipId(int membershipId) {
+this.membershipId = membershipId;
+}
+public String getMembershipType() {
+return membershipType;
+}
+public void setMembershipType(String membershipType) {
+this.membershipType = membershipType;
+}
+public int getVisitsPerYear() {
+return visitsPerYear;
+}
+public void setVisitsPerYear(int visitsPerYear) {
+this.visitsPerYear = visitsPerYear;
+}
+public Customer getCustomer() {
+return customer;
+}
+public void setCustomer(Customer customer) {
+this.customer = customer;
+}
+@Override
+public String toString() {
+return "MemberShip [membershipId=" + membershipId +
+", membershipType=" + membershipType + ", visitsPerYear="
++ visitsPerYear + ", customer=" + customer +
+"]";
+}
+}
+applicationContext.xml:
+<beans xmlns="http://www.springframework.org/schema/beans"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+">
+<bean id="custObj" class="com.spring.app.Customer">
+<property name="custId" value="1"></property>
+<property name="custName" value="Shubham" />
+<property name="emailId" value="shubham@gmail.com"
+/>
+<property name="contactNo" value="9458708076" />
+</bean>
+<bean id="memberShipObj"
+class="com.spring.app.MemberShip">
+<constructor-arg value="1" type="int" index="0" />
+<constructor-arg value="gold" index="1" />
+<constructor-arg value="45" type="int" index="2" />
+<constructor-arg ref="custObj" index="3" />
+</bean>
+</beans>
